@@ -34,9 +34,17 @@ export class RolesGuard implements CanActivate {
     }
 
     const roleModules = await this.prisma.roleModule.findMany({
-      where: { roleId: payload.roleId },
-      include: { module: true },
-    });
+        where: { 
+          roleId: payload.roleId, // filter by specific roleId
+          status: 1               // filter by status = 1 (active/assigned)
+        },
+        include: { 
+          module: true            // include related module data in the result
+        },
+      });
+
+
+
 
     const hasModule = roleModules.some(rm => rm.module.name === requiredModule);
     if (!hasModule) {

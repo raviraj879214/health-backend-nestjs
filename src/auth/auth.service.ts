@@ -13,14 +13,15 @@ export class AuthService {
   ) {}
 
   async login(dto: LoginDto) {
+    const { email, password } = dto;
     const user = await this.prisma.user.findUnique({
-      where: { email: dto.email },
+      where: { email: email },
       include: { role: { include: { modules: { include: { module: true } } } } },
     });
 
     if (!user) throw new UnauthorizedException('Invalid credentials');
 
-    const passwordValid = await bcrypt.compare(dto.password, user.password);
+    const passwordValid = await bcrypt.compare(password, user.password);
     if (!passwordValid) throw new UnauthorizedException('Invalid credentials');
 
     // Prepare payload with user id and role
@@ -33,5 +34,7 @@ export class AuthService {
     });
 
     return { access_token: token, user };
+
+    
   }
 }

@@ -41,20 +41,77 @@ async createRole(dto: CreateRoleDto) {
 
   
 
+async getRoles(page: number, limit: number) {
+  const totalCount = await this.prisma.role.count(); // total rows
 
-  getRoles() {
-    return this.prisma.role.findMany();
-  }
+  const roles = await this.prisma.role.findMany({
+    orderBy: { createdAt: 'desc' }, 
+    skip: (page - 1) * limit, 
+    take: limit,
+    
+  });
+
+  return { roles, totalCount }; // send roles + total count
+}
+
+
+
+
 
   getRoleById(id: number) {
     return this.prisma.role.findUnique({ where: { id } });
   }
 
-  updateRole(id: number, dto: UpdateRoleDto) {
-    return this.prisma.role.update({ where: { id }, data: { name: dto.name } });
+async updateRole(id: number, dto: UpdateRoleDto) {
+  // check if another role with the same name already exists
+  const exist = await this.prisma.role.findFirst({
+    where: {
+      name: dto.name,
+      NOT: { id }, // exclude current role id
+    },
+  });
+
+  if (exist) {
+    return {
+      status: 404,
+      message: "Role already exists"
+    };
   }
 
-  deleteRole(id: number) {
-    return this.prisma.role.delete({ where: { id } });
+const updatedRole = await this.prisma.role.update({
+  where: { id },
+  data: { name: dto.name },
+});
+
+return {
+  status: 200,
+  message: "Role updated successfully",
+  data: updatedRole,
+};
+
+  
+
+}
+
+async deleteRole(id: number) {
+  try {
+    const deletedRole = await this.prisma.role.delete({
+      where: { id },
+    });
+
+    return {
+      status: 200,
+      message: 'Role deleted successfully',
+      data: deletedRole,
+    };
+  } catch (error) {
+    // If the role doesn't exist or some error occurs
+    return {
+      status: 404,
+      message: 'Role not found or could not be deleted',
+      data: null,
+    };
   }
+}
+
 }

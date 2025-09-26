@@ -17,11 +17,20 @@ export class RoleModulesService {
   }
 
   async getRoleModules(roleId: number) {
-    const roleModules = await this.prisma.roleModule.findMany({
-      where: { roleId },
-      include: { module: true },
-    });
-    return roleModules.map((rm) => rm.module);
+    
+  const roleModules = await this.prisma.roleModule.findMany({
+        where: { roleId },
+        select: {
+          status: true,
+          module: true,
+        },
+      });
+
+      return roleModules.map((rm) => ({
+        ...rm.module,   // spread all module fields
+        status: rm.status, // keep status too
+      }));
+
   }
 
   async removeModule(dto: RemoveModuleDto) {
@@ -30,4 +39,44 @@ export class RoleModulesService {
       where: { roleId_moduleId: { roleId, moduleId } },
     });
   }
+
+
+  // service or repository layer
+async updateRoleModule(roleId: number, moduleId: number, status: number) {
+  roleId = Number(roleId);
+  moduleId = Number(moduleId);
+  status = Number(status);
+
+  const existing = await this.prisma.roleModule.findFirst({
+    where: { roleId, moduleId },
+  });
+
+  if (!existing) throw new Error("Role module not found");
+
+  const data = await this.prisma.roleModule.update({
+    where: { id: existing.id },
+    data: { status },
+  });
+
+  return {
+    status: 200,
+    message: "Role module updated successfully",
+    data,
+  };
 }
+
+
+
+
+
+
+
+
+
+
+
+
+}
+
+
+

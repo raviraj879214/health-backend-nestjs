@@ -28,6 +28,7 @@ model RoleModule {
   id       Int     @id @default(autoincrement())
   roleId   Int
   moduleId Int
+  status   Int @default(0)
   role     Role    @relation(fields: [roleId], references: [id])
   module   Module  @relation(fields: [moduleId], references: [id])
   @@unique([roleId, moduleId])
@@ -38,6 +39,9 @@ model RoleModule {
 model User {
   id       Int    @id @default(autoincrement())
   email    String @unique
+  firstname String?
+  lastname String?
+  Bio      String?
   password String
   roleId   Int
   role     Role   @relation(fields: [roleId], references: [id])
