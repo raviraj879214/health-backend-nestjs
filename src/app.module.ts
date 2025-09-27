@@ -5,10 +5,11 @@ import { RoleModulesModule } from './role-modules/role-modules.module';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import { TestModule } from './test/test.module';
+import { EmailtemplateModule } from './emailtemplates/emailtemplate.module';
 
 
 @Module({
- imports: [RoleModule, ModulesModule , RoleModulesModule , UsersModule , AuthModule , TestModule],
+ imports: [RoleModule, ModulesModule , RoleModulesModule , UsersModule , AuthModule , TestModule , EmailtemplateModule],
 })
 
 
