@@ -7,7 +7,7 @@ async function bootstrap() {
 
   // Enable CORS before listening
   app.enableCors({
-    origin: ['http://localhost:3000','https://health-tech-ui.vercel.app'], // your frontend origin
+    origin: ['https://health-tech-ui.vercel.app'], // your frontend origin
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
     allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true,
