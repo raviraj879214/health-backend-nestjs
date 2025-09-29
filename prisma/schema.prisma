@@ -44,6 +44,11 @@ model User {
   Bio      String?
   password String
   roleId   Int
+  phone String?
+  country String?
+  state String?
+  postalcode String?
+  address String?
   role     Role   @relation(fields: [roleId], references: [id])
   activityLogs  ActivityLog[]
 }

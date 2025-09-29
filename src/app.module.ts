@@ -6,11 +6,14 @@ import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import { TestModule } from './test/test.module';
 import { EmailtemplateModule } from './emailtemplates/emailtemplate.module';
+import { AdminUserModule } from './admin-user-changes/v1/admin-user.module';
 
 
 @Module({
- imports: [RoleModule, ModulesModule , RoleModulesModule , UsersModule , AuthModule , TestModule , EmailtemplateModule],
+ imports: [RoleModule, ModulesModule , RoleModulesModule , UsersModule , AuthModule , TestModule , EmailtemplateModule , AdminUserModule],
 })
+
+
 
 
 
