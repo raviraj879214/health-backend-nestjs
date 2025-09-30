@@ -1,31 +1,43 @@
-// src/test/test.controller.ts
-import { Controller, Get, UseGuards } from '@nestjs/common';
-import { ModuleAccess } from '../common/decorators/module-access.decorator';
-import { RolesGuard } from 'src/common/guards/roles.guards';
+import { Controller, Get, Param, Query, Inject, Version } from '@nestjs/common';
+import type  { ITestService } from './interfaces/test.interface';
 
 
 
 @Controller('test')
-@UseGuards(RolesGuard) // apply guard to all routes here
 export class TestController {
-  
-  @Get('public')
-  publicRoute() {
-    return { message: 'This route is public for all logged-in users' };
-  }
 
-  @Get('products')
-  
-  @ModuleAccess('Orders') // only users with Products module can access
 
-  restrictedProducts()
-  {
-    return { message: 'You have access to Products module' };
-  }
+  constructor(
 
-  @Get('orders')
-  @ModuleAccess('Orders') // only users with Orders module
-  restrictedOrders() {
-    return { message: 'You have access to Orders module' };
-  }
+
+      @Inject('ITestService') private readonly testService: ITestService) {}
+
+
+      @Get('run/:type')
+      @Version('1')
+      run(@Param('type') type: string)
+      {
+
+        return this.testService.runTask({ type });
+      }
+
+      @Get('status/:type')
+      @Version('1')
+      status(@Param('type') type: string) {
+        return this.testService.getStatus(type);
+      }
+
+      @Get('info')
+      @Version('1')
+      info(@Query('type') type: string) {
+        return this.testService.getInfo(type);
+      }
+
+      @Get('all')
+      @Version('1')
+      testAll() {
+        return this.testService.testAll();
+      }
+
+      
 }
