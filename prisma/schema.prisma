@@ -29,8 +29,8 @@ model RoleModule {
   roleId   Int
   moduleId Int
   status   Int @default(0)
-  role     Role    @relation(fields: [roleId], references: [id])
-  module   Module  @relation(fields: [moduleId], references: [id])
+  role     Role    @relation(fields: [roleId], references: [id], onDelete: Cascade)
+  module   Module  @relation(fields: [moduleId], references: [id], onDelete: Cascade)
   @@unique([roleId, moduleId])
 }
 
@@ -49,7 +49,7 @@ model User {
   state String?
   postalcode String?
   address String?
-  role     Role   @relation(fields: [roleId], references: [id])
+  role     Role   @relation(fields: [roleId], references: [id], onDelete: Cascade)
   activityLogs  ActivityLog[]
 }
 
@@ -65,7 +65,7 @@ model ActivityLog {
   userAgent   String?
   createdAt   DateTime @default(now())
 
-  user        User?    @relation(fields: [userId], references: [id])
+  user        User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 

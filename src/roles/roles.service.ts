@@ -13,6 +13,7 @@ export class RoleService {
 
 async createRole(dto: CreateRoleDto) {
   // Check if role already exists
+
   const existingRole = await this.prisma.role.findUnique({
     where: { name: dto.name },
   });
@@ -28,6 +29,31 @@ async createRole(dto: CreateRoleDto) {
   const role = await this.prisma.role.create({
     data: { name: dto.name },
   });
+
+  
+  const assignmodel = await this.prisma.module.findMany({});
+
+    await Promise.all(
+
+
+      assignmodel.map(element =>
+        this.prisma.roleModule.create({
+          data: {
+            roleId: role.id,
+            moduleId: element.id,
+            status: 1,
+          },
+        })
+      )
+
+
+    );
+
+
+
+
+
+
 
   return {
     status: 200,
@@ -102,6 +128,7 @@ async deleteRole(id: number) {
   try {
     const deletedRole = await this.prisma.role.delete({
       where: { id },
+      
     });
 
     return {
