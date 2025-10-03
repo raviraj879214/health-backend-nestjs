@@ -48,6 +48,7 @@ async createUser(dto: CreateUserDto) {
   {
 
     const totalCount = await this.prisma.user.count();
+    
       const users = await this.prisma.user.findMany({
          where: {
           role: {
