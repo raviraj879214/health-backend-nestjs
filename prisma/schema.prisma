@@ -97,3 +97,19 @@ model Tag {
   id    Int    @id @default(autoincrement())
   name  String @unique
 }
+
+
+
+
+model SeoPages {
+  id            Int      @id @default(autoincrement()) // Or use UUID if you prefer
+  title         String
+  slug          String   @unique
+  content       String
+  meta_title    String?
+  meta_desc     String?
+  meta_keywords String?
+  created_at    DateTime @default(now())
+  updated_at    DateTime @updatedAt
+  seopage       String?
+}

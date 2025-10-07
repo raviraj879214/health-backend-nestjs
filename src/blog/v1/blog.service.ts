@@ -174,6 +174,9 @@ export class BlogServices implements IBlogService{
         const blogslist = await  this.prisma.blog.findMany({
              skip: (page - 1) * limit, 
             take: limit,
+             orderBy: {
+                created_at: 'desc', // newest first
+            },
         });
 
         return {

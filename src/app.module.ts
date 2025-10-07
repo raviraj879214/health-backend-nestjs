@@ -12,6 +12,7 @@ import { BlogModule } from './blog/v1/blog.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'node:path';
 import { TagsModule } from './tags/v1/tags,module';
+import { SeoModule } from './seo/v1/seo.module';
 
 
 @Module({
@@ -20,7 +21,7 @@ import { TagsModule } from './tags/v1/tags,module';
       rootPath: join(__dirname, '..', 'uploads'), // actual uploads folder
       serveRoot: '/v1/uploads', // URL prefix
     }),
-    RoleModule, ModulesModule , RoleModulesModule , UsersModule , AuthModule , TestModule , EmailtemplateModule , AdminUserModule , ActivityModule , BlogModule, TagsModule ],
+    RoleModule, ModulesModule , RoleModulesModule , UsersModule , AuthModule , TestModule , EmailtemplateModule , AdminUserModule , ActivityModule , BlogModule, TagsModule ,SeoModule ],
 })
 
 
