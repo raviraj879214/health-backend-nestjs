@@ -78,3 +78,22 @@ model EmailTemplate {
   updatedAt DateTime @updatedAt
 }
 
+
+model Blog {
+  id        Int      @id @default(autoincrement())
+  title     String
+  content   String
+  image_url String?
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  tagId    String?     // single tag
+  tagurl String?
+  titleurl String?
+}
+
+model Tag {
+  id    Int    @id @default(autoincrement())
+  name  String @unique
+}
